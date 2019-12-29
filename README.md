@@ -22,4 +22,5 @@ Homepage
 ![homepage](https://github.com/bourdibay/WordOfTheDay/blob/master/screenshots/homepage.png)
 
 Word of the day
+
 ![word of the day](https://github.com/bourdibay/WordOfTheDay/blob/master/screenshots/word_of_the_day.png)
