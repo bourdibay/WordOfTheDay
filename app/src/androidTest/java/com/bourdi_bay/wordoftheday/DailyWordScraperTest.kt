@@ -51,4 +51,17 @@ class DailyWordScraperTest {
             dailyWord.oftenUsed
         )
     }
+
+    @Test
+    fun dailyWordIsBuiltWithOldHtmlFormat() {
+
+        val stream = context.resources.assets.open("daily_word_old_format.html")
+
+        val scraper = DailyWordScraper()
+        val dailyWord = scraper.loadFromStream(stream)
+
+        Assert.assertNotNull(dailyWord)
+        Assert.assertEquals("rat", dailyWord!!.word)
+        Assert.assertEquals("September 15, 2016", dailyWord.date)
+    }
 }

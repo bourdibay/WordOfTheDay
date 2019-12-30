@@ -4,6 +4,8 @@ import com.bourdi_bay.wordoftheday.DailyWord
 import org.jsoup.Jsoup
 import java.io.IOException
 import java.io.InputStream
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class DailyWordScraper {
 
@@ -38,15 +40,29 @@ class DailyWordScraper {
         if (htmlDocument == null)
             return null
 
-        val divSectionWords = htmlDocument!!.select("div.section.word p")
-        val divDates = htmlDocument!!.select("div.post-date p")
-        if (divSectionWords.isEmpty() || divDates.isEmpty())
+        val article = htmlDocument!!.select("article")
+        if (article.isEmpty())
             return null
 
-        val word = divSectionWords[0].ownText()
+        val divPostHeader = article[0].select("div.post-header")
+        if (divPostHeader.isEmpty())
+            return null
+
+        val headerName = divPostHeader[0].select("h1")
+        val divDates = divPostHeader[0].select("div.post-date p")
+        if (headerName.isEmpty() || divDates.isEmpty())
+            return null
+
+        val headerText = headerName[0].text()
+        val matcher: Matcher = Pattern.compile(".*Word of the Day: (.*)").matcher(headerText)
+        var word = ""
+        if (matcher.find()) {
+            word = matcher.group(1)
+        }
+
         val date = divDates[0].text()
 
-        val divPostEntry = htmlDocument!!.select("div.post-entry")
+        val divPostEntry = article[0].select("div.post-entry")
         if (divPostEntry.isEmpty())
             return null
 
