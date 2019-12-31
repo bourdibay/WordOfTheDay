@@ -64,4 +64,17 @@ class DailyWordScraperTest {
         Assert.assertEquals("rat", dailyWord!!.word)
         Assert.assertEquals("September 15, 2016", dailyWord.date)
     }
+
+    @Test
+    fun dailyWordIsBuiltWithLowerCaseName() {
+
+        val stream = context.resources.assets.open("daily_word_format2.html")
+
+        val scraper = DailyWordScraper()
+        val dailyWord = scraper.loadFromStream(stream)
+
+        Assert.assertNotNull(dailyWord)
+        Assert.assertEquals("smear", dailyWord!!.word)
+        Assert.assertEquals("December 2, 2019", dailyWord.date)
+    }
 }

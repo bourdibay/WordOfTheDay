@@ -49,23 +49,29 @@ class DailyWordScraper {
             return null
 
         val headerName = divPostHeader[0].select("h1")
-        val divDates = divPostHeader[0].select("div.post-date p")
-        if (headerName.isEmpty() || divDates.isEmpty())
+
+
+        if (headerName.isEmpty())
             return null
 
         val headerText = headerName[0].text()
-        val matcher: Matcher = Pattern.compile(".*Word of the Day: (.*)").matcher(headerText)
+        val matcher: Matcher = Pattern.compile("(?i).*Word of the Day: (.*)").matcher(headerText)
         var word = ""
         if (matcher.find()) {
             word = matcher.group(1)
         }
 
-        val date = divDates[0].text()
-
         val divPostEntry = article[0].select("div.post-entry")
         if (divPostEntry.isEmpty())
             return null
 
+        val divDates = article[0].select("div.post-meta span.meta-info")
+        if (divDates.isEmpty())
+            return null
+        val date = divDates[0].text()
+
+        // Some old words have a very different format (beckon, merry, pitch, stuffing...)
+        // we cannot load them because it is too much work to handle them.
         val divDefinition = divPostEntry.select("div.section.text-area")
         if (divDefinition.isEmpty())
             return null

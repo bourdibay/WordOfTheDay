@@ -17,7 +17,7 @@ class DailyWordScraperTask(private val postExecute: (DailyWord?) -> Unit) :
 
         val endTimer = System.currentTimeMillis()
         val elapsedSeconds = (endTimer - startTimer) / 1000.0
-        Log.i("BENCH", "Elapsed time (in sec) for $url: $elapsedSeconds")
+        Log.i("BENCH", "Elapsed time (in sec) for $url (${dailyWord?.word}): $elapsedSeconds")
 
         return dailyWord
     }
